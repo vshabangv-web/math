@@ -49,28 +49,28 @@ export default function Hero() {
           {/* 인터랙티브 영역 (클릭 카운터 피드백 포함) */}
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             
+            {/* 수학 슈팅 게임 시작 버튼 */}
+            <a
+              href="/game"
+              className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-full bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-600 px-8 font-bold text-white shadow-lg shadow-purple-500/25 transition-all duration-300 hover:scale-105 hover:shadow-purple-500/35 focus:outline-none focus:ring-2 focus:ring-purple-500/35 active:scale-95"
+            >
+              <span className="relative flex items-center gap-2">
+                🎮 실수 vs 허수 슈팅 게임 시작하기
+              </span>
+            </a>
+
             {/* 1. 요구사항: 가짜(Placeholder) 버튼 */}
             <button
               onClick={handlePlaceholderClick}
-              className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 px-6 font-medium text-white shadow-lg shadow-indigo-500/25 transition-all duration-300 hover:scale-105 hover:from-indigo-500 hover:to-purple-500 hover:shadow-indigo-500/35 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:scale-95"
+              className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-full bg-indigo-50 px-6 font-medium text-indigo-650 ring-1 ring-inset ring-indigo-200 hover:bg-indigo-100 hover:text-indigo-700 transition-all duration-300 hover:scale-102 active:scale-95 dark:bg-indigo-950/30 dark:text-indigo-300 dark:ring-indigo-800"
             >
               <span className="relative flex items-center gap-2">
                 기능 추가하기 (클릭해보세요!)
-                <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/20 text-xs font-bold text-white transition-all group-hover:bg-white/30">
+                <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-indigo-200 text-xs font-bold text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300 transition-all">
                   {clickCount}
                 </span>
               </span>
             </button>
-
-            {/* 2. 보조 링크 */}
-            <a
-              href="https://nextjs.org/docs"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex h-12 items-center justify-center rounded-full border border-slate-350 bg-white px-6 text-sm font-medium text-slate-700 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 transition-colors duration-200"
-            >
-              공식 문서 살펴보기
-            </a>
           </div>
         </div>
 

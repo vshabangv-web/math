@@ -17,6 +17,12 @@ export default function Header() {
         {/* 네비게이션 메뉴 (데스크톱) */}
         <nav className="hidden md:flex items-center gap-8">
           <Link 
+            href="/game" 
+            className="text-sm font-bold text-indigo-600 hover:text-indigo-500 transition-colors duration-200 dark:text-indigo-400 dark:hover:text-indigo-300"
+          >
+            🎯 수학 슈팅 게임
+          </Link>
+          <Link 
             href="#" 
             className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors duration-200 dark:text-slate-300 dark:hover:text-indigo-400"
           >
