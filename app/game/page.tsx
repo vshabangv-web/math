@@ -11,44 +11,45 @@ interface MathTargetType {
   isReal: boolean;
 }
 
+// 고등학교 교육과정 수준의 수식 풀 (오일러 항등식, log, cos 등 범위 초과 내용 제외)
 const MATH_POOL: MathTargetType[] = [
   // --- 실수 (Real Numbers) ---
-  { text: "5", isReal: true },
-  { text: "-12", isReal: true },
+  { text: "7", isReal: true },
+  { text: "-5", isReal: true },
   { text: "0", isReal: true },
   { text: "3.14", isReal: true },
+  { text: "-2.7", isReal: true },
+  { text: "1/2", isReal: true },
   { text: "3/4", isReal: true },
   { text: "-8/3", isReal: true },
   { text: "√2", isReal: true },
+  { text: "√3", isReal: true },
   { text: "√5", isReal: true },
-  { text: "π", isReal: true },
-  { text: "e", isReal: true },
-  { text: "i²", isReal: true },        // i^2 = -1 (실수)
-  { text: "i⁴", isReal: true },        // i^4 = 1 (실수)
-  { text: "(2i)²", isReal: true },     // -4 (실수)
-  { text: "(1-i)(1+i)", isReal: true },// 2 (실수)
-  { text: "log(10)", isReal: true },   // 1 (실수)
-  { text: "cos(π)", isReal: true },    // -1 (실수)
-  { text: "0.333...", isReal: true },  // 1/3 (실수)
-  { text: "-√16", isReal: true },      // -4 (실수)
-  { text: "e^(iπ)", isReal: true },    // -1 (실수, 오일러 항등식)
+  { text: "-√7", isReal: true },
+  { text: "√9", isReal: true },       // = 3 (실수)
+  { text: "-√16", isReal: true },     // = -4 (실수)
+  { text: "√25", isReal: true },      // = 5 (실수)
+  { text: "i²", isReal: true },       // = -1 (실수) — 고교 기본 개념
+  { text: "i⁴", isReal: true },       // = 1 (실수)
+  { text: "(2i)²", isReal: true },    // = -4 (실수)
+  { text: "(-i)²", isReal: true },    // = -1 (실수)
 
-  // --- 허수 (Imaginary/Complex Numbers) ---
+  // --- 허수 / 복소수 (Imaginary / Complex Numbers) ---
+  { text: "i", isReal: false },
   { text: "3i", isReal: false },
   { text: "-i", isReal: false },
+  { text: "-2i", isReal: false },
+  { text: "5i", isReal: false },
   { text: "2 + i", isReal: false },
   { text: "3 - 2i", isReal: false },
-  { text: "-5 + 4i", isReal: false },
-  { text: "√-4", isReal: false },      // 2i (허수)
-  { text: "√-9", isReal: false },      // 3i (허수)
-  { text: "√-2", isReal: false },      // i√2 (허수)
-  { text: "i³", isReal: false },       // -i (허수)
-  { text: "i⁵", isReal: false },       // i (허수)
-  { text: "1/i", isReal: false },      // -i (허수)
-  { text: "(1+i)²", isReal: false },    // 2i (허수)
-  { text: "√-7", isReal: false },      // i√7 (허수)
-  { text: "x + yi (y≠0)", isReal: false },
-  { text: "3i + √2", isReal: false }
+  { text: "1 + 5i", isReal: false },
+  { text: "-4 + i", isReal: false },
+  { text: "√-1", isReal: false },     // = i (허수)
+  { text: "√-4", isReal: false },     // = 2i (허수)
+  { text: "√-9", isReal: false },     // = 3i (허수)
+  { text: "√-16", isReal: false },    // = 4i (허수)
+  { text: "i³", isReal: false },      // = -i (허수)
+  { text: "i⁵", isReal: false },      // = i (허수)
 ];
 
 // ----------------------------------------------------
@@ -541,8 +542,8 @@ export default function MathShooterGame() {
         targetSpawnTimer = 0;
         const randomItem = MATH_POOL[Math.floor(Math.random() * MATH_POOL.length)];
         
-        // Spawn parameters
-        const radius = 28 + Math.random() * 8; // randomized radius
+        // Spawn parameters — 타겟 크기를 키워 텍스트 가독성 향상
+        const radius = 38 + Math.random() * 8; // 더 큰 타겟 반경
         const x = radius + Math.random() * (canvas.width - radius * 2);
         const y = -radius;
         // Float downward with slight horizontal weave velocity
@@ -637,17 +638,17 @@ export default function MathShooterGame() {
         ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
         ctx.stroke();
 
-        // Target Mathematical Text
+        // Target Mathematical Text — 폰트 크기 대폭 확대하여 가독성 향상
         ctx.fillStyle = "#ffffff";
-        ctx.shadowBlur = 4;
-        ctx.shadowColor = "#000000";
+        ctx.shadowBlur = 6;
+        ctx.shadowColor = "rgba(0,0,0,0.8)";
         
-        // Font sizing depending on length of text
-        let fontSize = 14;
-        if (target.text.length > 6) fontSize = 11;
-        if (target.text.length > 10) fontSize = 9;
+        // 기본 폰트 크기를 크게 설정 (타겟 반경에 맞게 조정)
+        let fontSize = 20;
+        if (target.text.length > 5) fontSize = 17;
+        if (target.text.length > 8) fontSize = 14;
         
-        ctx.font = `bold ${fontSize}px GeistMono, monospace, sans-serif`;
+        ctx.font = `bold ${fontSize}px 'Courier New', GeistMono, monospace`;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillText(target.text, target.x, target.y);
@@ -740,52 +741,134 @@ export default function MathShooterGame() {
         ctx.restore();
       });
 
-      // 8. Draw Player's Spaceship
+      // 8. Draw Player's Spaceship — 공군 전투기(F-16 스타일) 디자인
       ctx.save();
-      
-      // Flickering Engine fire particle effects
-      if (Math.random() > 0.3) {
-        ctx.fillStyle = Math.random() > 0.5 ? "#f97316" : "#ef4444";
+
+      const sx = ship.x;
+      const sy = ship.y;
+
+      // 엔진 애프터버너 화염 (기체 뒤쪽)
+      if (Math.random() > 0.2) {
+        // 메인 화염
+        const flameGrad = ctx.createLinearGradient(sx, sy + 18, sx, sy + 32 + Math.random() * 10);
+        flameGrad.addColorStop(0, "rgba(255, 200, 50, 0.95)");
+        flameGrad.addColorStop(0.5, "rgba(255, 80, 20, 0.7)");
+        flameGrad.addColorStop(1, "rgba(255, 30, 0, 0)");
+        ctx.fillStyle = flameGrad;
         ctx.beginPath();
-        ctx.moveTo(ship.x - 6, ship.y + 15);
-        ctx.lineTo(ship.x + 6, ship.y + 15);
-        ctx.lineTo(ship.x, ship.y + 20 + Math.random() * 8);
+        ctx.moveTo(sx - 5, sy + 18);
+        ctx.lineTo(sx + 5, sy + 18);
+        ctx.lineTo(sx + 2, sy + 30 + Math.random() * 8);
+        ctx.lineTo(sx - 2, sy + 30 + Math.random() * 8);
         ctx.closePath();
         ctx.fill();
       }
 
-      // Draw Spaceship Body (Arcade vector style)
-      const shipGrad = ctx.createLinearGradient(ship.x - 15, ship.y, ship.x + 15, ship.y);
-      shipGrad.addColorStop(0, "#00d2ff");
-      shipGrad.addColorStop(0.5, "#ffffff");
-      shipGrad.addColorStop(1, "#00d2ff");
-      
-      ctx.fillStyle = shipGrad;
-      ctx.shadowBlur = 8;
-      ctx.shadowColor = "#00d2ff";
-
+      // === 동체 (Fuselage) — 가늘고 긴 F-16 스타일 ===
+      const fuselageGrad = ctx.createLinearGradient(sx - 8, sy, sx + 8, sy);
+      fuselageGrad.addColorStop(0, "#4a5568");
+      fuselageGrad.addColorStop(0.3, "#718096");
+      fuselageGrad.addColorStop(0.5, "#e2e8f0");
+      fuselageGrad.addColorStop(0.7, "#718096");
+      fuselageGrad.addColorStop(1, "#4a5568");
+      ctx.fillStyle = fuselageGrad;
+      ctx.shadowBlur = 10;
+      ctx.shadowColor = "rgba(100,180,255,0.5)";
       ctx.beginPath();
-      // Nose cone
-      ctx.moveTo(ship.x, ship.y - 18);
-      // Left wings
-      ctx.lineTo(ship.x - 15, ship.y + 12);
-      ctx.lineTo(ship.x - 8, ship.y + 6);
-      // Bottom core
-      ctx.lineTo(ship.x + 8, ship.y + 6);
-      // Right wings
-      ctx.lineTo(ship.x + 15, ship.y + 12);
+      // 기수(Nose) — 뾰족한 F-16 노즈콘
+      ctx.moveTo(sx, sy - 28);         // 최상단 노즈 끝
+      ctx.lineTo(sx - 4, sy - 10);     // 동체 상단 좌
+      ctx.lineTo(sx - 5, sy + 16);     // 동체 하단 좌
+      ctx.lineTo(sx + 5, sy + 16);     // 동체 하단 우
+      ctx.lineTo(sx + 4, sy - 10);     // 동체 상단 우
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = "rgba(255,255,255,0.3)";
+      ctx.lineWidth = 0.8;
+      ctx.stroke();
+
+      // === 주익 (Delta Wing) — 삼각형 델타 날개 ===
+      const wingGrad = ctx.createLinearGradient(sx - 28, sy + 5, sx + 28, sy + 5);
+      wingGrad.addColorStop(0, "#2d3748");
+      wingGrad.addColorStop(0.5, "#4a5568");
+      wingGrad.addColorStop(1, "#2d3748");
+      ctx.fillStyle = wingGrad;
+      ctx.beginPath();
+      // 왼쪽 날개 (델타형)
+      ctx.moveTo(sx - 4, sy - 2);      // 날개 안쪽 앞전
+      ctx.lineTo(sx - 28, sy + 14);    // 날개 끝
+      ctx.lineTo(sx - 5, sy + 16);     // 날개 안쪽 뒤전
+      ctx.closePath();
+      ctx.fill();
+      ctx.beginPath();
+      // 오른쪽 날개 (델타형)
+      ctx.moveTo(sx + 4, sy - 2);
+      ctx.lineTo(sx + 28, sy + 14);
+      ctx.lineTo(sx + 5, sy + 16);
       ctx.closePath();
       ctx.fill();
 
-      // Wing outline borders
-      ctx.strokeStyle = "#ffffff";
-      ctx.lineWidth = 1;
+      // 날개 테두리 하이라이트
+      ctx.strokeStyle = "rgba(200,220,255,0.4)";
+      ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      ctx.moveTo(sx - 4, sy - 2);
+      ctx.lineTo(sx - 28, sy + 14);
+      ctx.moveTo(sx + 4, sy - 2);
+      ctx.lineTo(sx + 28, sy + 14);
       ctx.stroke();
 
-      // Cockpit dome (neon cyan glow)
-      ctx.fillStyle = "#ffffff";
+      // === 수평 미익 (Horizontal Stabilizer) ===
+      ctx.fillStyle = "#374151";
       ctx.beginPath();
-      ctx.arc(ship.x, ship.y - 2, 4, 0, Math.PI * 2);
+      // 왼쪽 미익
+      ctx.moveTo(sx - 5, sy + 12);
+      ctx.lineTo(sx - 16, sy + 18);
+      ctx.lineTo(sx - 5, sy + 18);
+      ctx.closePath();
+      ctx.fill();
+      ctx.beginPath();
+      // 오른쪽 미익
+      ctx.moveTo(sx + 5, sy + 12);
+      ctx.lineTo(sx + 16, sy + 18);
+      ctx.lineTo(sx + 5, sy + 18);
+      ctx.closePath();
+      ctx.fill();
+
+      // === 수직 미익 (Vertical Fin) ===
+      ctx.fillStyle = "#4a5568";
+      ctx.beginPath();
+      ctx.moveTo(sx, sy + 4);
+      ctx.lineTo(sx - 2, sy + 18);
+      ctx.lineTo(sx + 2, sy + 18);
+      ctx.closePath();
+      ctx.fill();
+
+      // === 조종석 캐노피 (Cockpit Canopy) — F-16 버블 캐노피 ===
+      const canopyGrad = ctx.createRadialGradient(sx - 1, sy - 14, 1, sx, sy - 12, 7);
+      canopyGrad.addColorStop(0, "rgba(180, 230, 255, 0.95)");
+      canopyGrad.addColorStop(0.6, "rgba(80, 160, 220, 0.7)");
+      canopyGrad.addColorStop(1, "rgba(30, 80, 160, 0.5)");
+      ctx.fillStyle = canopyGrad;
+      ctx.shadowBlur = 6;
+      ctx.shadowColor = "rgba(120,200,255,0.8)";
+      ctx.beginPath();
+      ctx.ellipse(sx, sy - 13, 3.5, 6, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // 공군 마킹 — 국적 원형 마크 (동체 중앙)
+      ctx.shadowBlur = 0;
+      ctx.beginPath();
+      ctx.arc(sx, sy + 2, 3.5, 0, Math.PI * 2);
+      ctx.fillStyle = "#1a56db"; // 파란색 외곽
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(sx, sy + 2, 2.2, 0, Math.PI * 2);
+      ctx.fillStyle = "#ffffff"; // 흰색 중간
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(sx, sy + 2, 1.2, 0, Math.PI * 2);
+      ctx.fillStyle = "#e02424"; // 빨간색 내부
       ctx.fill();
 
       // If hit, show brief danger shield red glow
@@ -795,9 +878,9 @@ export default function MathShooterGame() {
           ship.shieldActive = false;
         } else {
           ctx.beginPath();
-          ctx.arc(ship.x, ship.y, 25, 0, Math.PI * 2);
+          ctx.arc(sx, sy, 35, 0, Math.PI * 2);
           ctx.strokeStyle = `rgba(239, 68, 68, ${ship.shieldGlow / 10})`;
-          ctx.lineWidth = 2;
+          ctx.lineWidth = 2.5;
           ctx.stroke();
         }
       }
