@@ -11,7 +11,7 @@ interface MathTargetType {
   isReal: boolean;
 }
 
-// 고등학교 교육과정 수준의 수식 풀 (오일러 항등식, log, cos 등 범위 초과 내용 제외)
+// 고등학교 교육과정 수준의 수식 풀 (π 포함, 거듭제곱 등식 형태 제외)
 const MATH_POOL: MathTargetType[] = [
   // --- 실수 (Real Numbers) ---
   { text: "7", isReal: true },
@@ -29,10 +29,9 @@ const MATH_POOL: MathTargetType[] = [
   { text: "√9", isReal: true },       // = 3 (실수)
   { text: "-√16", isReal: true },     // = -4 (실수)
   { text: "√25", isReal: true },      // = 5 (실수)
-  { text: "i²", isReal: true },       // = -1 (실수) — 고교 기본 개념
-  { text: "i⁴", isReal: true },       // = 1 (실수)
-  { text: "(2i)²", isReal: true },    // = -4 (실수)
-  { text: "(-i)²", isReal: true },    // = -1 (실수)
+  { text: "π", isReal: true },        // 원주율 (중학교 과정)
+  { text: "-π", isReal: true },       // 음의 원주율 (실수)
+  { text: "2π", isReal: true },       // 실수
 
   // --- 허수 / 복소수 (Imaginary / Complex Numbers) ---
   { text: "i", isReal: false },
@@ -48,8 +47,6 @@ const MATH_POOL: MathTargetType[] = [
   { text: "√-4", isReal: false },     // = 2i (허수)
   { text: "√-9", isReal: false },     // = 3i (허수)
   { text: "√-16", isReal: false },    // = 4i (허수)
-  { text: "i³", isReal: false },      // = -i (허수)
-  { text: "i⁵", isReal: false },      // = i (허수)
 ];
 
 // ----------------------------------------------------
